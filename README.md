@@ -105,12 +105,9 @@ Sonraki versiyonlarda:
 - [Alibaba Page Agent](https://github.com/alibaba/page-agent)
 - [Stagewise](https://github.com/stagewise-io/stagewise)
 
-## Lisans
-
-MIT License
 
 ## İletişim
 
 Proje: VisionUX - Mobil UX Accessibility Checker
-Geliştirici: Enes
+Geliştirici: Enes Gadiş
 Tarih: Mart 2026
