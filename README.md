@@ -56,3 +56,30 @@ Sistem, subjektif yorumları bertaraf etmek için aşağıdaki deterministik mod
 Sistemin çalışması için Python 3.9+ sürümü gereklidir. Gerekli kütüphaneleri yüklemek için:
 
 pip install -r requirements.txt
+
+### 5.2. Kurulum Adımları
+Depoyu klonlayın:
+git clone https://github.com/enesgadis/visionx.git
+cd visionx
+
+Sanal ortam oluşturun (Önerilen):
+python -m venv venv
+
+Windows için:
+venv\Scripts\activate
+
+Linux/Mac için:
+source venv/bin/activate
+
+### 5.3. Çalıştırma
+Analiz motorunu bir ekran görüntüsü üzerinde test etmek için aşağıdaki komutu kullanın:
+
+
+python wcag_contrast_checker.py <dosya_yolu/ekran_goruntusu.png>
+
+## 6. İletişim
+Geliştirici: Enes Gadiş
+
+Kurum: Samsun Üniversitesi, Yazılım Mühendisliği Anabilim Dalı
+
+Tarih: Mart 2026
