@@ -1,113 +1,63 @@
-# VisionUX - WCAG Contrast Checker
+VisionUX: Stagewise Mobile UX Repair Agent
+VisionUX, mobil uygulama arayüzlerini WCAG 2.1 erişilebilirlik standartlarına göre denetleyen ve deterministik analiz sonuçlarını LLM tabanlı "onarım reçetelerine" dönüştüren yüksek lisans düzeyinde bir Deneyim Mühendisliği (Experience Engineering) projesidir.
 
-Mobil ekran görüntülerinde text-background kontrast oranlarını WCAG 2.1 standartlarına göre analiz eden Python tool.
+Proje Vizyonu ve Kapsam (MVP 2.0)
+Nurettin Hoca'nın akademik geri bildirimleri doğrultusunda projenin kapsamı, 10 haftalık geliştirme sürecine uygun şekilde "Kontrast Erişilebilirliği ve Kaynak Kod Onarımı" üzerine odaklanmıştır.
 
-## Özellikler
+Yeni MVP Akışı:
 
-- PNG ekran görüntüsü analizi
-- OCR ile otomatik text tespiti
-- Text ve background renk çiftleri çıkarımı
-- WCAG 2.1 kontrast oranı hesaplama (relative luminance formülü)
-- WCAG AA/AAA uyumluluk kontrolü
+Screenshot (Mobil Ekran) ➔ Deterministic Audit (WCAG Analizi) ➔ Stagewise Repair (LLM Tabanlı Kod Onarımı)
 
-## Kurulum
 
-```bash
-# Virtual environment oluştur (önerilen)
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+Shutterstock
+10 Haftalık Mühendislik Yol Haritası (Roadmap)
+Hafta	Aşama (SDLC)	Hedeflenen Çıktı / Teslimat	Durum
+1 (20 Mart)	Analiz & Prototip	Python Kontrast Scripti (EasyOCR & Pillow) ve Kapsam Daraltma.	TAMAMLANDI ✅
+2	Veri Toplama	20 Ekranlık "Ground Truth" Mobil Veri Setinin Oluşturulması.	Planlandı
+3	Geliştirme (I)	alibaba/page-agent mantığıyla Element Segmentasyonu iyileştirmesi.	Planlandı
+4	Geliştirme (II)	LLM (GPT-4o/Gemini) API Entegrasyonu ve Prompt Engineering.	Planlandı
+5	Test & Doğrulama	LLM tarafından üretilen Fix Snippet'lerin (RN/Flutter) manuel kontrolü.	Planlandı
+6-8	Entegrasyon	Stagewise Onarım Mantığı ve Web Dashboard Geliştirme.	Planlandı
+9-10	Finalizasyon	Benchmark Raporu, Teknik Dokümantasyon ve Tez Taslağı Teslimi.	Planlandı
+ Akademik Analiz ve Benchmarking
+VisionUX, pazardaki ve literatürdeki araçların boşluklarını kapatmak üzere kurgulanmıştır:
 
+Google Stitch (Tahminleme): Stitch, kullanıcının nereye bakacağını (Heatmap) tahmin eder; VisionUX, bu odağın mühendislik sağlığını (kontrast) denetler.
+
+UX Doctor (Web): UX Doctor web sayfalarında stagewise onarım yapar; VisionUX, bu vizyonu Mobile Native (View Hierarchy) bağlamına taşır.
+
+Stagewise Mimari: Proje, sadece hata bulmakla kalmaz; stagewise-io mimarisinden esinlenerek kaynak kod seviyesinde onarım (Source Code Repair) önerileri üretir.
+
+ Kritik Süreç Kuralı
+"Experience Engineering Prensibi: Proje, teknik implementasyondan önce insancıl katmana (empati ve deneyim) odaklanır. Bu doğrultuda; Google Stitch üzerinden prototip onayı alınmaksızın kesinlikle uygulama (implementation) aşamasına geçilmeyecektir."
+
+Teknik Detaylar (Core Engine)
+Kontrast Hesaplama Modeli
+VisionUX, subjektif yorumları bertaraf etmek için deterministik matematiksel modeller kullanır:
+
+Bağıl Parlaklık (L): L=0.2126⋅R+0.7152⋅G+0.0722⋅B
+
+Kontrast Oranı (C): C=(L1+0.05)/(L2+0.05)
+
+Standartlar: WCAG AA (4.5:1) ve AAA (7.0:1) eşik değerleri.
+
+Teknoloji Yığını
+OCR Engine: EasyOCR (Deep Learning tabanlı metin tespiti)
+
+Image Processing: Pillow (PIL) & NumPy
+
+Code Generation: LLM-based Fix Snippet (React Native / Flutter)
+
+Kurulum ve Çalıştırma
+Bash
 # Bağımlılıkları yükle
 pip install -r requirements.txt
-```
 
-**Not:** İlk çalıştırmada EasyOCR model dosyalarını (~80MB) indirecek.
-
-## Kullanım
-
-```bash
-python wcag_contrast_checker.py <screenshot.png>
-```
-
-### Örnek
-
-```bash
-python wcag_contrast_checker.py screenshots/mobile_app.png
-```
-
-## Çıktı Formatı
-
-Script her text elementi için şunları raporlar:
-
-- **Text içeriği**: OCR ile tespit edilen text
-- **Pozisyon**: Bounding box koordinatları
-- **Text rengi**: RGB ve hex formatında
-- **Background rengi**: RGB ve hex formatında
-- **Kontrast oranı**: X:1 formatında
-- **WCAG AA durumu**: PASS/FAIL (minimum 4.5:1 normal text için)
-- **WCAG AAA durumu**: PASS/FAIL (minimum 7.0:1 normal text için)
-- **OCR güven skoru**: 0.0-1.0 arası
-
-## WCAG 2.1 Standartları
-
-| Level | Normal Text | Large Text (18pt+ veya 14pt+ bold) |
-|-------|-------------|-------------------------------------|
-| AA    | 4.5:1       | 3.0:1                              |
-| AAA   | 7.0:1       | 4.5:1                              |
-
-## Teknik Detaylar
-
-### Kontrast Hesaplama
-
-WCAG 2.1'e göre relative luminance formülü:
-
-```
-L = 0.2126 × R + 0.7152 × G + 0.0722 × B
-```
-
-Her kanal (R, G, B) için normalizasyon:
-
-```
-if c ≤ 0.03928:
-    c_linear = c / 12.92
-else:
-    c_linear = ((c + 0.055) / 1.055) ^ 2.4
-```
-
-Kontrast oranı:
-
-```
-contrast_ratio = (L1 + 0.05) / (L2 + 0.05)
-```
-
-L1: daha açık renk, L2: daha koyu renk
-
-## Limitasyonlar
-
-Mevcut versiyon (v0.1):
-- Sadece İngilizce text (EasyOCR yapılandırmasında değiştirilebilir)
-- Background color tespiti basitleştirilmiş (bbox etrafındaki piksellerden örnekleme)
-- Gradient veya kompleks background'lar için approximation
-- Large text tespiti yok (tüm text'ler normal kabul edilir)
-
-## Roadmap
-
-Sonraki versiyonlarda:
-- Multi-language support
-- Font size tespiti (large text için farklı threshold)
-- LLM entegrasyonu: React Native/Flutter fix snippet üretimi
-- Ground truth veri seti ile doğrulama
-- Web UI
-
-## Referanslar
-
-- [WCAG 2.1 Contrast Guidelines](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
-- [Alibaba Page Agent](https://github.com/alibaba/page-agent)
-- [Stagewise](https://github.com/stagewise-io/stagewise)
-
-
-## İletişim
-
-Proje: VisionUX - Mobil UX Accessibility Checker
+# Analizi başlat
+python wcag_contrast_checker.py test_screenshots/sample_mobile_ui.png
+ İletişim
 Geliştirici: Enes Gadiş
+
+Kurum: Samsun Üniversitesi, Yazılım Mühendisliği Anabilim Dalı
+
 Tarih: Mart 2026
