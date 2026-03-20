@@ -1,63 +1,58 @@
-VisionUX: Stagewise Mobile UX Repair Agent
-VisionUX, mobil uygulama arayüzlerini WCAG 2.1 erişilebilirlik standartlarına göre denetleyen ve deterministik analiz sonuçlarını LLM tabanlı "onarım reçetelerine" dönüştüren yüksek lisans düzeyinde bir Deneyim Mühendisliği (Experience Engineering) projesidir.
+# VisionUX: Stagewise Mobile UX Repair Agent
 
-Proje Vizyonu ve Kapsam (MVP 2.0)
-Nurettin Hoca'nın akademik geri bildirimleri doğrultusunda projenin kapsamı, 10 haftalık geliştirme sürecine uygun şekilde "Kontrast Erişilebilirliği ve Kaynak Kod Onarımı" üzerine odaklanmıştır.
+VisionUX, mobil uygulama arayüzlerini WCAG 2.1 (Web Content Accessibility Guidelines) standartlarına göre denetleyen ve elde edilen deterministik verileri LLM (Large Language Model) mimarisi üzerinden otomatik onarım reçetelerine dönüştüren akademik bir Deneyim Mühendisliği (Experience Engineering) projesidir.
 
-Yeni MVP Akışı:
+## 1. Proje Vizyonu ve Kapsam (MVP 2.0)
 
-Screenshot (Mobil Ekran) ➔ Deterministic Audit (WCAG Analizi) ➔ Stagewise Repair (LLM Tabanlı Kod Onarımı)
+Projenin kapsamı, akademik geri bildirimler doğrultusunda 10 haftalık geliştirme sürecine uygun olarak "Kontrast Erişilebilirliği ve Kaynak Kod Onarımı" üzerine odaklanmıştır. Sistemin temel çalışma akışı şu şekildedir:
 
+1. Girdi: Mobil arayüz ekran görüntüsü (Screenshot).
+2. Denetim: Deterministik matematiksel modellerle kontrast analizi (Audit).
+3. Onarım: Tespit edilen hataların stagewise mimariyle kod seviyesinde onarılması (Repair).
 
-Shutterstock
-10 Haftalık Mühendislik Yol Haritası (Roadmap)
-Hafta	Aşama (SDLC)	Hedeflenen Çıktı / Teslimat	Durum
-1 (20 Mart)	Analiz & Prototip	Python Kontrast Scripti (EasyOCR & Pillow) ve Kapsam Daraltma.	TAMAMLANDI ✅
-2	Veri Toplama	20 Ekranlık "Ground Truth" Mobil Veri Setinin Oluşturulması.	Planlandı
-3	Geliştirme (I)	alibaba/page-agent mantığıyla Element Segmentasyonu iyileştirmesi.	Planlandı
-4	Geliştirme (II)	LLM (GPT-4o/Gemini) API Entegrasyonu ve Prompt Engineering.	Planlandı
-5	Test & Doğrulama	LLM tarafından üretilen Fix Snippet'lerin (RN/Flutter) manuel kontrolü.	Planlandı
-6-8	Entegrasyon	Stagewise Onarım Mantığı ve Web Dashboard Geliştirme.	Planlandı
-9-10	Finalizasyon	Benchmark Raporu, Teknik Dokümantasyon ve Tez Taslağı Teslimi.	Planlandı
- Akademik Analiz ve Benchmarking
-VisionUX, pazardaki ve literatürdeki araçların boşluklarını kapatmak üzere kurgulanmıştır:
+## 2. Mühendislik Yol Haritası (Roadmap)
 
-Google Stitch (Tahminleme): Stitch, kullanıcının nereye bakacağını (Heatmap) tahmin eder; VisionUX, bu odağın mühendislik sağlığını (kontrast) denetler.
+Proje, Yazılım Geliştirme Yaşam Döngüsü (SDLC) prensiplerine uygun olarak aşağıdaki takvimle ilerlemektedir:
 
-UX Doctor (Web): UX Doctor web sayfalarında stagewise onarım yapar; VisionUX, bu vizyonu Mobile Native (View Hierarchy) bağlamına taşır.
+| Hafta | Aşama (SDLC) | Hedeflenen Çıktı / Teslimat | Durum |
+| :--- | :--- | :--- | :--- |
+| 1 (20 Mart) | Analiz & Prototip | Python Kontrast Scripti (EasyOCR & Pillow) ve Kapsam Daraltma. | TAMAMLANDI |
+| 2 | Veri Toplama | 20 Ekranlık "Ground Truth" Mobil Veri Setinin Oluşturulması. | Planlandı |
+| 3 | Geliştirme (I) | alibaba/page-agent mantığıyla Element Segmentasyonu iyileştirmesi. | Planlandı |
+| 4 | Geliştirme (II) | LLM (GPT-4o/Gemini) API Entegrasyonu ve Prompt Engineering. | Planlandı |
+| 5 | Test & Doğrulama | LLM tarafından üretilen Fix Snippet'lerin (RN/Flutter) manuel kontrolü. | Planlandı |
+| 6-8 | Entegrasyon | Stagewise Onarım Mantığı ve Web Dashboard Geliştirme. | Planlandı |
+| 9-10 | Finalizasyon | Benchmark Raporu, Teknik Dokümantasyon ve Tez Taslağı Teslimi. | Planlandı |
 
-Stagewise Mimari: Proje, sadece hata bulmakla kalmaz; stagewise-io mimarisinden esinlenerek kaynak kod seviyesinde onarım (Source Code Repair) önerileri üretir.
+## 3. Akademik Analiz ve Benchmarking
 
- Kritik Süreç Kuralı
-"Experience Engineering Prensibi: Proje, teknik implementasyondan önce insancıl katmana (empati ve deneyim) odaklanır. Bu doğrultuda; Google Stitch üzerinden prototip onayı alınmaksızın kesinlikle uygulama (implementation) aşamasına geçilmeyecektir."
+VisionUX, literatürdeki ve endüstrideki mevcut araçların sunduğu boşlukları kapatmayı hedefler:
 
-Teknik Detaylar (Core Engine)
-Kontrast Hesaplama Modeli
-VisionUX, subjektif yorumları bertaraf etmek için deterministik matematiksel modeller kullanır:
+* Google Stitch (Tahminleme): Stitch, kullanıcı odağını (Attention) tahmin ederken; VisionUX bu odak noktalarının teknik sağlığını (Erişilebilirlik) denetler.
+* UX Doctor (Web): Mevcut UX Doctor çözümleri yalnızca web tabanlı DOM yapısını kapsar. VisionUX, bu vizyonu Mobile Native (View Hierarchy) bağlamına taşır.
+* Stagewise Mimari: Proje, stagewise-io mimarisinden esinlenerek kaynak kod seviyesinde onarım önerileri üretir.
 
-Bağıl Parlaklık (L): L=0.2126⋅R+0.7152⋅G+0.0722⋅B
+Kritik Süreç Kuralı: Proje prensibi gereği, Google Stitch üzerinden prototip onayı alınmaksızın uygulama (implementation) aşamasına geçilmemesi esastır.
 
-Kontrast Oranı (C): C=(L1+0.05)/(L2+0.05)
+## 4. Teknik Detaylar (Core Engine)
 
-Standartlar: WCAG AA (4.5:1) ve AAA (7.0:1) eşik değerleri.
+### 4.1. Kontrast Hesaplama Modeli
+Sistem, subjektif yorumları bertaraf etmek için aşağıdaki deterministik modelleri kullanır:
 
-Teknoloji Yığını
-OCR Engine: EasyOCR (Deep Learning tabanlı metin tespiti)
+* Bağıl Parlaklık (Relative Luminance):
+  L = 0.2126 * R + 0.7152 * G + 0.0722 * B
+* Kontrast Oranı (Contrast Ratio):
+  C = (L1 + 0.05) / (L2 + 0.05)
+* Standartlar: WCAG AA (4.5:1) ve AAA (7.0:1) eşik değerleri.
 
-Image Processing: Pillow (PIL) & NumPy
+### 4.2. Teknoloji Yığını
+* OCR Engine: EasyOCR (Deep Learning tabanlı metin tespiti).
+* Görüntü İşleme: Pillow (PIL) ve NumPy.
+* Kod Üretimi: LLM-based Fix Snippet (React Native / Flutter).
 
-Code Generation: LLM-based Fix Snippet (React Native / Flutter)
+## 5. Kurulum ve Proje Çalıştırma
 
-Kurulum ve Çalıştırma
-Bash
-# Bağımlılıkları yükle
+### 5.1. Gereksinimler
+Sistemin çalışması için Python 3.9+ sürümü gereklidir. Gerekli kütüphaneleri yüklemek için:
+
 pip install -r requirements.txt
-
-# Analizi başlat
-python wcag_contrast_checker.py test_screenshots/sample_mobile_ui.png
- İletişim
-Geliştirici: Enes Gadiş
-
-Kurum: Samsun Üniversitesi, Yazılım Mühendisliği Anabilim Dalı
-
-Tarih: Mart 2026
