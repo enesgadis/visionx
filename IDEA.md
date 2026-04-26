@@ -1,10 +1,11 @@
 # VisionUX: Autonomous Mobile Accessibility Repair System
 
 **Version:** 2.0  
-**Date:** 2026-04-17  
+**Date:** 2026-04-26  
 **Status:** Active Development (MVP Complete)  
 **Author:** Enes Gadis  
-**Advisor:** Nurettin Senyer
+**Advisor:** Nurettin Senyer  
+**Institution:** Samsun University, Software Engineering
 
 ---
 
@@ -433,5 +434,5 @@ visionux/
 ---
 
 **Document Status:** IDEA v2.0 Complete  
-**Last Updated:** 2026-04-17  
-**Next Review:** After ground truth dataset collection
+**Last Updated:** 2026-04-26  
+**Next Review:** After Google Stitch integration approval
